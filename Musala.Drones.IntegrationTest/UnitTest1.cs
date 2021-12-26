@@ -1,4 +1,6 @@
+using Musala.Drones.ApiHost;
 using System;
+using System.Net;
 using Xunit;
 
 namespace Musala.Drones.IntegrationTest
@@ -8,7 +10,6 @@ namespace Musala.Drones.IntegrationTest
         [Fact]
         public void Test1()
         {
-
         }
     }
 }
