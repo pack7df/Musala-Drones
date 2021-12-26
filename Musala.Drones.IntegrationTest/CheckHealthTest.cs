@@ -12,8 +12,9 @@ namespace Musala.Drones.IntegrationTest
     public class CheckHealthTest
     {
         [Theory]
-        [InlineData("WeatherForecast/")]
-        public void CheckAspNetCoreService(string url)
+        [InlineData("/api/health/WebHost")]
+        [InlineData("/api/health/database")]
+        public void CheckSystemsService(string url)
         {
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();

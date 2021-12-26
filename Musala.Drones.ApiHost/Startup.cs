@@ -25,11 +25,25 @@ namespace Musala.Drones.ApiHost
 
         public IConfiguration Configuration { get; }
 
+        private string mongoDBConfigHeader = "MongoDB";
+        public MongoDbConfiguration MongoDbConfiguration
+        {
+            get
+            {
+                return Configuration.GetSection(mongoDBConfigHeader).Get<MongoDbConfiguration>();
+            }
+        }
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSingleton<IDbServiceHealth>((sp) =>
+            {
+                return new MongoDbServiceHealth(MongoDbConfiguration.ConnectionString);
+            });
             services.AddControllers();
+            services.AddHealthChecks();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Musala.Drones.ApiHost", Version = "v1" });
@@ -40,6 +54,7 @@ namespace Musala.Drones.ApiHost
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseHealthChecks("/api/health/WebHost");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

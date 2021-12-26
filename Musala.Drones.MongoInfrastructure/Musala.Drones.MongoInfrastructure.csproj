@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Musala.Drones.Domain\Musala.Drones.Domain.csproj" />
   </ItemGroup>
 

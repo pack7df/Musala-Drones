@@ -16,7 +16,7 @@ namespace Musala.Drones.ApiHost.Controllers
         {
             if (string.IsNullOrEmpty(data.Serial))
                 return BadRequest();
-            if (data.Weight<=0)
+            if (data.Weight <= 0)
                 return BadRequest();
             if (data.Serial.Length > 100)
                 return Ok("Serial number size exceed 100 chars");
