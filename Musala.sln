@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musala.Drones.ApiHost", "Musala.Drones.ApiHost\Musala.Drones.ApiHost.csproj", "{29A6FDE6-FFE3-419A-9DBB-B0CE5B28C60D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musala.Drones.ApiHost", "Musala.Drones.ApiHost\Musala.Drones.ApiHost.csproj", "{29A6FDE6-FFE3-419A-9DBB-B0CE5B28C60D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{1A3AC938-5C9E-488E-8E42-350BA4FDAC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musala.Drones.IntegrationTest", "Musala.Drones.IntegrationTest\Musala.Drones.IntegrationTest.csproj", "{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musala.Drones.IntegrationTest", "Musala.Drones.IntegrationTest\Musala.Drones.IntegrationTest.csproj", "{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{6747F2FE-FCB5-41BA-8542-A0B914760F9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5AC1A75-2076-4779-8141-1FBC5F369B43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musala.Drones.Domain", "Musala.Drones.Domain\Musala.Drones.Domain.csproj", "{78231C14-4444-4623-B496-64E59C4D23D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78231C14-4444-4623-B496-64E59C4D23D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78231C14-4444-4623-B496-64E59C4D23D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78231C14-4444-4623-B496-64E59C4D23D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78231C14-4444-4623-B496-64E59C4D23D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{29A6FDE6-FFE3-419A-9DBB-B0CE5B28C60D} = {1A3AC938-5C9E-488E-8E42-350BA4FDAC00}
 		{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8} = {1A3AC938-5C9E-488E-8E42-350BA4FDAC00}
+		{78231C14-4444-4623-B496-64E59C4D23D2} = {6747F2FE-FCB5-41BA-8542-A0B914760F9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33FF48AE-2091-4787-9969-3D741C828C89}

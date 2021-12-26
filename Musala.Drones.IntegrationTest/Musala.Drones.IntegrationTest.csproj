@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Musala.Drones.ApiHost\Musala.Drones.ApiHost.csproj" />
+    <ProjectReference Include="..\Musala.Drones.Domain\Musala.Drones.Domain.csproj" />
   </ItemGroup>
 
 </Project>
