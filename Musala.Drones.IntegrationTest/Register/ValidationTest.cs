@@ -14,7 +14,7 @@ namespace Musala.Drones.IntegrationTest.Register
 
     public class ValidationTest
     {
-        private string registerDroneUrl = "api/drone";
+        private string droneUrl = "api/drone";
 
         public static IEnumerable<object[]> BadRequestRegistrationSamples()
         {
@@ -64,7 +64,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
-            var result = client.HttpClient.PostAsync(registerDroneUrl, sample.GetStringContent()).Result;
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.BadRequest,result.StatusCode);
         }
 
@@ -84,7 +84,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
-            var result = client.HttpClient.PostAsync(registerDroneUrl, sample.GetStringContent()).Result;
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Serial number size exceed 100 chars".ToLower(), response.ToLower());
@@ -101,7 +101,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
-            var result = client.HttpClient.PostAsync(registerDroneUrl, sample.GetStringContent()).Result;
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Weight limit exceed 500".ToLower(), response.ToLower());

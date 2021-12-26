@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Musala.Drones.Domain.ServicesContracts;
+using Musala.Drones.MongoInfrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,7 @@ namespace Musala.Drones.ApiHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Musala.Drones.ApiHost", Version = "v1" });
             });
+            services.AddSingleton<IDronesStorageServices, DroneStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musala.Drones.Domain", "Musala.Drones.Domain\Musala.Drones.Domain.csproj", "{78231C14-4444-4623-B496-64E59C4D23D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musala.Drones.MongoInfrastructure", "Musala.Drones.MongoInfrastructure\Musala.Drones.MongoInfrastructure.csproj", "{75FCE705-8B45-49DA-8C92-63C602A96ADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{78231C14-4444-4623-B496-64E59C4D23D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78231C14-4444-4623-B496-64E59C4D23D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78231C14-4444-4623-B496-64E59C4D23D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75FCE705-8B45-49DA-8C92-63C602A96ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75FCE705-8B45-49DA-8C92-63C602A96ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75FCE705-8B45-49DA-8C92-63C602A96ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75FCE705-8B45-49DA-8C92-63C602A96ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{29A6FDE6-FFE3-419A-9DBB-B0CE5B28C60D} = {1A3AC938-5C9E-488E-8E42-350BA4FDAC00}
 		{D360ED3B-C34D-4A0D-9EF3-B22C211B98F8} = {1A3AC938-5C9E-488E-8E42-350BA4FDAC00}
 		{78231C14-4444-4623-B496-64E59C4D23D2} = {6747F2FE-FCB5-41BA-8542-A0B914760F9C}
+		{75FCE705-8B45-49DA-8C92-63C602A96ADD} = {E5AC1A75-2076-4779-8141-1FBC5F369B43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33FF48AE-2091-4787-9969-3D741C828C89}
