@@ -44,8 +44,9 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             client.ClearDb();
             client.Initialize<Startup>();
             var _ = client.HttpClient.PostAsync(droneUrl, drone.GetStringContent()).Result;
-            _ = client.HttpClient.GetAsync($"{droneLoadUrl}/{drone.Serial}").Result;
-            var result = client.HttpClient.GetAsync($"{droneUrl}/{drone.Serial}").Result;
+            var result = client.HttpClient.GetAsync($"{droneLoadUrl}/{drone.Serial}").Result;
+            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            result = client.HttpClient.GetAsync($"{droneUrl}/{drone.Serial}").Result;
             var modelStr = result.Content.ReadAsStringAsync().Result;
             var returnedModel = JsonConvert.DeserializeObject<DroneModel>(modelStr);
             Assert.Equal(DroneStateEnum.Loading, returnedModel.State);

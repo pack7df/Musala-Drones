@@ -12,8 +12,8 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
 {
     public class ValidationTest
     {
-        private string droneLoadUrl = "api/drone/{serial}/load";
-        private string droneRegisterUrl = "api/drone/{serial}/load";
+        private string droneLoadUrl = "api/drone/{serial}";
+        private string droneUrl = "api/drone";
 
         public static IEnumerable<object[]> BadRequestSamples()
         {
@@ -137,7 +137,9 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             client.Initialize<Startup>();
             var url = droneLoadUrl.Replace("{serial}", serial);
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.Conflict, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+            var content = result.Content.ReadAsStringAsync().Result;
+            Assert.Equal("Repeated items".ToLower(), content.ToLower());
         }
 
 
@@ -188,12 +190,15 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             {
                 Serial = serial,
                 Type = DroneTypeEnum.Heavy,
-                Weight = maxWeight
+                Weight = maxWeight,
+                BateryLevel = 40
             };
-            var _ = client.HttpClient.PostAsync(droneRegisterUrl, drone.GetStringContent()).Result;
+            var _ = client.HttpClient.PostAsync(droneUrl, drone.GetStringContent()).Result;
             var url = droneLoadUrl.Replace("{serial}", serial);
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.Conflict, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+            var content = result.Content.ReadAsStringAsync().Result;
+            Assert.Equal("OverWeight".ToLower(), content.ToLower());
         }
 
         [Fact]
@@ -219,10 +224,10 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
                 Weight = maxWeight,
                 BateryLevel = 20
             };
-            var _ = client.HttpClient.PostAsync(droneRegisterUrl, drone.GetStringContent()).Result;
+            var _ = client.HttpClient.PostAsync(droneUrl, drone.GetStringContent()).Result;
             var url = droneLoadUrl.Replace("{serial}", serial);
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var content = result.Content.ReadAsStringAsync().Result;
             Assert.Equal("Batery low".ToLower(), content.ToLower());
         }

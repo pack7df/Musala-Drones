@@ -87,7 +87,7 @@ namespace Musala.Drones.IntegrationTest.Register
             client.ClearDb();
             client.Initialize<Startup>();
             var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Serial number size exceed 100 chars".ToLower(), response.ToLower());
         }
@@ -105,7 +105,7 @@ namespace Musala.Drones.IntegrationTest.Register
             client.ClearDb();
             client.Initialize<Startup>();
             var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Weight limit exceed 500".ToLower(), response.ToLower());
         }
@@ -123,7 +123,7 @@ namespace Musala.Drones.IntegrationTest.Register
             client.ClearDb();
             client.Initialize<Startup>();
             var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Batery level must be between 0 and 100".ToLower(), response.ToLower());
         }
@@ -141,7 +141,7 @@ namespace Musala.Drones.IntegrationTest.Register
             client.ClearDb();
             client.Initialize<Startup>();
             var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Batery level must be between 0 and 100".ToLower(), response.ToLower());
         }

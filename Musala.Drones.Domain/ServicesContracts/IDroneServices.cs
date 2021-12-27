@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Musala.Drones.Domain.ServicesContracts
 {
+    public enum DroneLoadResult
+    {
+        Ok,BateryLow=1,OverWeigth=2,RepeatedItems=3
+    }
     public interface IDroneServices
     {
         public Task<bool> RegisterAsync(DroneModel drone);
+        public Task<DroneLoadResult> LoadPayloadAsync(string serial, MedicationModel[] medications);
     }
 }

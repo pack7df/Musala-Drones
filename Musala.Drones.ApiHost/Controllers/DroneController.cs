@@ -20,29 +20,62 @@ namespace Musala.Drones.ApiHost.Controllers
             this.droneStorageService = droneStorageService;
         }
         [HttpPost]
-        public async Task<IActionResult> RegisterDrone([FromBody] DroneModel data)
+        public async Task<IActionResult> Register([FromBody] DroneModel data)
         {
             if (string.IsNullOrEmpty(data.Serial))
                 return BadRequest();
             if (data.Weight <= 0)
                 return BadRequest();
             if (data.Serial.Length > 100)
-                return Ok("Serial number size exceed 100 chars");
+                return BadRequest("Serial number size exceed 100 chars");
             if (data.Weight > 500)
-                return Ok("Weight limit exceed 500");
+                return BadRequest("Weight limit exceed 500");
             if ((data.BateryLevel < 0) || (data.BateryLevel >100))
-                return Ok("Batery level must be between 0 and 100");
+                return BadRequest("Batery level must be between 0 and 100");
             var result = await droneService.RegisterAsync(data);
             if (!result)
-                return Ok("Serial exists");
-            return Created("",data);
+                return BadRequest("Serial exists");
+            return Created($"/api/drone/{data.Serial}",data);
         }
         [HttpGet()]
         [Route("{serial}")]
-        public async Task<DroneModel> GetDrone(string serial)
+        public async Task<DroneModel> Get(string serial)
         {
             var drone = await this.droneStorageService.LoadAsync(serial);
             return drone;
+        }
+
+        [HttpPost]
+        [Route("{serial}")]
+        public async Task<IActionResult> LoadPayload(string serial, [FromBody] MedicationModel[] data)
+        {
+            if (data.Length==0)
+                return BadRequest();
+            if (data.Any(m => m == null))
+                return BadRequest();
+            var names = data.Select(m => m.Name).ToHashSet();
+            var codes = data.Select(m => m.Code).ToHashSet();
+            if (names.Count() != data.Length)
+                return BadRequest("Repeated items");
+            if (codes.Count() != data.Length)
+                return BadRequest("Repeated items");
+            var result = await droneService.LoadPayloadAsync(serial, data);
+            switch (result)
+            {
+                case DroneLoadResult.BateryLow:
+                {
+                    return BadRequest("Batery low");
+                }
+                case DroneLoadResult.OverWeigth:
+                {
+                    return BadRequest("OverWeight");
+                }
+                case DroneLoadResult.Ok:
+                {
+                    return Ok();
+                }
+            }
+            return Ok();
         }
     }
 }
