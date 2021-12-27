@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Musala.Drones.MongoInfrastructure
 {
-    public class DroneStorageService : IDronesStorageServices
+    public class DroneStorageService : IDronesStorageServices, IDbCleaner
     {
         private IMongoClient client;
         private MongoDbConfiguration configuration;
@@ -14,6 +14,11 @@ namespace Musala.Drones.MongoInfrastructure
         {
             this.client = client;
             this.configuration = configuration;
+        }
+
+        public async Task ClearAsync()
+        {
+            await client.DropDatabaseAsync(configuration.DatabaseName);
         }
 
         public async Task<DroneModel> LoadAsync(string serial)

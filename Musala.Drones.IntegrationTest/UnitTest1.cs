@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using Xunit;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace Musala.Drones.IntegrationTest
 {
     public class UnitTest1

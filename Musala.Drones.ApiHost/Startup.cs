@@ -52,10 +52,18 @@ namespace Musala.Drones.ApiHost
                 var _ = client.GetDatabase(MongoDbConfiguration.DatabaseName);
                 return client;
             });
-            services.AddSingleton<IDronesStorageServices>((sp) =>
+            services.AddSingleton<DroneStorageService>((sp) =>
             {
                 var client = sp.GetService<IMongoClient>();
                 return new DroneStorageService(client, MongoDbConfiguration);
+            });
+            services.AddSingleton<IDronesStorageServices>((sp) =>
+            {
+                return sp.GetService<DroneStorageService>();
+            });
+            services.AddSingleton<IDbCleaner>((sp) =>
+            {
+                return sp.GetService<DroneStorageService>();
             });
             services.AddSingleton<IDroneServices,DroneServices>();
             services.AddControllers();

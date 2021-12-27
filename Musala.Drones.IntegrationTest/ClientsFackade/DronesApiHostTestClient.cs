@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Diagnostics;
+using Musala.Drones.MongoInfrastructure;
 
 namespace Musala.Drones.IntegrationTest.ClientsFackade
 {
@@ -114,6 +115,12 @@ namespace Musala.Drones.IntegrationTest.ClientsFackade
                 builder.UseStartup<T>();
                 server = new TestServer(builder);
                 ServicesProviders = server.Services;
+                if (clearDb)
+                {
+                    var cleaner = this.ServicesProviders.GetService<IDbCleaner>();
+                    if (cleaner!=null)
+                        cleaner.ClearAsync().Wait();
+                }
                 HttpClient = server.CreateClient();
                 HttpClient.Timeout = TimeSpan.FromSeconds(30);
             }

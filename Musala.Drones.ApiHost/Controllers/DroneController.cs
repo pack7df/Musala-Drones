@@ -33,10 +33,10 @@ namespace Musala.Drones.ApiHost.Controllers
             var result = await droneService.RegisterAsync(data);
             if (!result)
                 return Ok("Serial exists");
-            return Ok(data);
+            return Created("",data);
         }
         [HttpGet()]
-        [Route("/{serial}")]
+        [Route("{serial}")]
         public async Task<DroneModel> GetDrone(string serial)
         {
             var drone = await this.droneStorageService.LoadAsync(serial);
