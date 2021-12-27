@@ -28,6 +28,7 @@ namespace Musala.Drones.ApiHost
         public IConfiguration Configuration { get; }
 
         private string mongoDBConfigHeader = "MongoDB";
+        private string telemetryPeriodHeader = "TelemetryPeriod";
         public MongoDbConfiguration MongoDbConfiguration
         {
             get
@@ -65,7 +66,15 @@ namespace Musala.Drones.ApiHost
             {
                 return sp.GetService<DroneStorageService>();
             });
-            services.AddSingleton<IDroneServices,DroneServices>();
+            services.AddSingleton<IDroneTelemetryService,DroneTelemetryServiceMock>();
+            services.AddSingleton<IDroneServices>((sp) =>
+            {
+                var storage = sp.GetService<DroneStorageService>();
+                var telemetry = sp.GetService<IDroneTelemetryService>();
+                var telemetryPeriod = Configuration.GetSection(telemetryPeriodHeader).Get<int>();
+                var service = new DroneServices(storage, telemetry, telemetryPeriod * 1000);
+                return service;
+            });
             services.AddControllers();
             services.AddHealthChecks();
             services.AddSwaggerGen(c =>

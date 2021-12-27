@@ -55,5 +55,6 @@ namespace Musala.Drones.Domain.Models
         {
             get;set;
         }
+
     }
 }

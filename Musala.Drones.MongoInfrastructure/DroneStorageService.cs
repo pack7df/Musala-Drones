@@ -22,6 +22,12 @@ namespace Musala.Drones.MongoInfrastructure
             await client.DropDatabaseAsync(configuration.DatabaseName);
         }
 
+        public async Task<List<DroneModel>> LoadAllAsync()
+        {
+            var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<DroneModel>("drones");
+            return await collection.Find(d => true).ToListAsync();
+        }
+
         public async Task<DroneModel> LoadAsync(string serial)
         {
             var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<DroneModel>("drones");

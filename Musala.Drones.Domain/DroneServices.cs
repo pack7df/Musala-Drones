@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Musala.Drones.Domain
@@ -11,9 +12,29 @@ namespace Musala.Drones.Domain
     public class DroneServices : IDroneServices
     {
         private IDronesStorageServices droneStorage;
-        public DroneServices(IDronesStorageServices droneStorage)
+
+        private IDroneTelemetryService droneTelemetryService;
+
+
+        private int telemetryPeriod = 10 * 1000;
+        private void BateryUpdater()
+        {
+            while (true)
+            {
+                var drones = droneStorage.LoadAllAsync().Result;
+                foreach(var d in drones)
+                {
+                    var telemetry = droneTelemetryService.GetTelemetry(d);
+                }
+                Thread.Sleep(telemetryPeriod);
+            }
+        }
+
+        public DroneServices(IDronesStorageServices droneStorage, IDroneTelemetryService droneTelemetryService, int telemetryPeriod=10*1000)
         {
             this.droneStorage = droneStorage;
+            this.droneTelemetryService = droneTelemetryService;
+            Task.Run(() => BateryUpdater());
         }
 
         public async Task<DroneModel> LoadDroneAsync(string serial)
