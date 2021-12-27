@@ -30,10 +30,10 @@ namespace Musala.Drones.Domain.Models
         {
             get
             {
-                var namePattern = "[A-Za-z0-9-_]+";
+                var namePattern = "^[A-Za-z0-9-_]+$";
                 var nameMatch = Regex.IsMatch(Name,namePattern);
                 if (!nameMatch) return false;
-                var codePattern = "[A-Z0-9_]+";
+                var codePattern = "^[A-Z0-9_]+$";
                 var codeMatch = Regex.IsMatch(Code, codePattern);
                 if (!codeMatch) return false;
                 return true;

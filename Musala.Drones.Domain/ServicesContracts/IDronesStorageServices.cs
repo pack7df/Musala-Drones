@@ -11,5 +11,7 @@ namespace Musala.Drones.Domain.ServicesContracts
     {
         Task SaveOrUpdateAsync(DroneModel drone);
         Task<DroneModel> LoadAsync(string serial);
+
+        Task<List<DroneModel>> LoadAvailableAsync();
     }
 }

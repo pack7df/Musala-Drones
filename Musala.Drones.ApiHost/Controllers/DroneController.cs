@@ -37,8 +37,15 @@ namespace Musala.Drones.ApiHost.Controllers
                 return BadRequest("Serial exists");
             return Created($"/api/drone/{data.Serial}",data);
         }
+
         [HttpGet()]
-        [Route("{serial}")]
+        [Route("available")]
+        public async Task<List<DroneModel>> Get()
+        {
+            return await this.droneStorageService.LoadAvailableAsync();
+        }
+
+        [HttpGet()]
         public async Task<DroneModel> Get(string serial)
         {
             var drone = await this.droneStorageService.LoadAsync(serial);
