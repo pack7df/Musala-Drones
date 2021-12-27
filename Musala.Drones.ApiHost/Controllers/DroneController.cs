@@ -59,6 +59,8 @@ namespace Musala.Drones.ApiHost.Controllers
                 return BadRequest("Repeated items");
             if (codes.Count() != data.Length)
                 return BadRequest("Repeated items");
+            if (data.Any(m => !m.IsValid))
+                return BadRequest("Invalid code or name in medication.");
             var result = await droneService.LoadPayloadAsync(serial, data);
             switch (result)
             {
