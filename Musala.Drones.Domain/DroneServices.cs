@@ -24,12 +24,17 @@ namespace Musala.Drones.Domain
         public async Task<DroneLoadResult> LoadPayloadAsync(string serial, MedicationModel[] medications)
         {
             var drone = await droneStorage.LoadAsync(serial);
+            if (drone == null)
+                return DroneLoadResult.NotFound;
             if (drone.BateryLevel < 25)
                 return DroneLoadResult.BateryLow;
             var payloadWeight = medications.Sum(m => m.Weight);
             if (payloadWeight > drone.Weight)
                 return DroneLoadResult.OverWeigth;
-            throw new NotImplementedException();
+            drone.Payload = medications;
+            drone.State = DroneStateEnum.Loading;
+            await droneStorage.SaveOrUpdateAsync(drone);
+            return DroneLoadResult.Ok;
         }
 
         public async Task<bool> RegisterAsync(DroneModel drone)

@@ -9,7 +9,7 @@ namespace Musala.Drones.Domain.ServicesContracts
 {
     public enum DroneLoadResult
     {
-        Ok,BateryLow=1,OverWeigth=2,RepeatedItems=3
+        Ok,BateryLow=1,OverWeigth=2,RepeatedItems=3,NotFound=4
     }
     public interface IDroneServices
     {

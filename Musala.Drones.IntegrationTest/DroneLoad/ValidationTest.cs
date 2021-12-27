@@ -231,5 +231,36 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             var content = result.Content.ReadAsStringAsync().Result;
             Assert.Equal("Batery low".ToLower(), content.ToLower());
         }
+
+        [Fact]
+        public void DroneNotFoundValidationTest()
+        {
+            var maxWeight = 400;
+            var serial = "01234567890";
+            var sample = new MedicationModel[] {
+                new MedicationModel{
+                    Code = "A45X__02",
+                    Image64 = "0000000",
+                    Name = "name-1_0",
+                    Weight = 200,
+                }
+            };
+            var client = new ClientsFackade.DronesApiHostTestClient();
+            client.ClearDb();
+            client.Initialize<Startup>();
+            var drone = new DroneModel
+            {
+                Serial = serial+"0",
+                Type = DroneTypeEnum.Heavy,
+                Weight = maxWeight,
+                BateryLevel = 20
+            };
+            var _ = client.HttpClient.PostAsync(droneUrl, drone.GetStringContent()).Result;
+            var url = droneLoadUrl.Replace("{serial}", serial);
+            var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+            var content = result.Content.ReadAsStringAsync().Result;
+            Assert.Equal("Drone not found".ToLower(), content.ToLower());
+        }
     }
 }

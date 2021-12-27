@@ -70,6 +70,10 @@ namespace Musala.Drones.ApiHost.Controllers
                 {
                     return BadRequest("OverWeight");
                 }
+                case DroneLoadResult.NotFound:
+                {
+                    return BadRequest("Drone not found");
+                }
                 case DroneLoadResult.Ok:
                 {
                     return Ok();

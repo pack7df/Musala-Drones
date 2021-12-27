@@ -8,15 +8,15 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
 {
     public class PersitencyTest
     {
-        private string droneLoadUrl = "api/drone/{serial}/load";
-        private string droneUrl = "api/drone/{serial}/load";
+        private string droneLoadUrl = "api/drone/{serial}";
+        private string droneUrl = "api/drone";
         [Fact]
         public void EnsureFieldsAreStored()
         {
             var drone = new DroneModel
             {
                 Serial = "1234567890",
-                Weight = 250,
+                Weight = 400,
                 Type = DroneTypeEnum.Heavy,
                 BateryLevel = 45
             };
@@ -44,7 +44,8 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             client.ClearDb();
             client.Initialize<Startup>();
             var _ = client.HttpClient.PostAsync(droneUrl, drone.GetStringContent()).Result;
-            var result = client.HttpClient.GetAsync($"{droneLoadUrl}/{drone.Serial}").Result;
+            var url = droneLoadUrl.Replace("{serial}", drone.Serial);
+            var result = client.HttpClient.PostAsync(url,sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
             result = client.HttpClient.GetAsync($"{droneUrl}/{drone.Serial}").Result;
             var modelStr = result.Content.ReadAsStringAsync().Result;
