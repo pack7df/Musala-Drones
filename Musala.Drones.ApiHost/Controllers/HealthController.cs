@@ -17,10 +17,9 @@ namespace Musala.Drones.ApiHost.Controllers
         [Route("database")]
         public async Task<IActionResult> MongoDbStatus()
         {
-
             var check = await dbHealthCheck.GetStatusAsync();
-            if (check)
-                return Ok();
+            if (!string.IsNullOrEmpty(check))
+                return Ok(check);
             return this.NoContent();
         }
     }

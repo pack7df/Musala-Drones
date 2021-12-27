@@ -12,6 +12,6 @@ namespace Musala.Drones.Domain.ServicesContracts
         {
             get;
         }
-        Task<bool> GetStatusAsync();
+        Task<string> GetStatusAsync();
     }
 }

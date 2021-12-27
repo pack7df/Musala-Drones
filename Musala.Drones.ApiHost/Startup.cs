@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using Musala.Drones.Domain.ServicesContracts;
 using Musala.Drones.MongoInfrastructure;
 using System;
@@ -40,7 +41,20 @@ namespace Musala.Drones.ApiHost
         {
             services.AddSingleton<IDbServiceHealth>((sp) =>
             {
-                return new MongoDbServiceHealth(MongoDbConfiguration.ConnectionString);
+                return new MongoDbServiceHealth(MongoDbConfiguration);
+            });
+            services.AddSingleton<IMongoClient>((sp) =>
+            {
+                var mongoUrl = MongoUrl.Create(MongoDbConfiguration.ConnectionString);
+                MongoClientSettings mongoClientSettings = MongoClientSettings.FromUrl(mongoUrl);
+                var client = new MongoClient(mongoClientSettings);
+                var _ = client.GetDatabase(MongoDbConfiguration.DatabaseName);
+                return client;
+            });
+            services.AddSingleton<IDronesStorageServices>((sp) =>
+            {
+                var client = sp.GetService<IMongoClient>();
+                return new DroneStorageService(client, MongoDbConfiguration);
             });
             services.AddControllers();
             services.AddHealthChecks();
@@ -48,7 +62,6 @@ namespace Musala.Drones.ApiHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Musala.Drones.ApiHost", Version = "v1" });
             });
-            services.AddSingleton<IDronesStorageServices, DroneStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
