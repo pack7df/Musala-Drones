@@ -116,7 +116,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var sample = new DroneModel
             {
                 Serial = "1234567890",
-                Weight = 600,
+                Weight = 400,
                 BateryLevel = -1
             };
             var client = new ClientsFackade.DronesApiHostTestClient();
@@ -134,7 +134,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var sample = new DroneModel
             {
                 Serial = "1234567890",
-                Weight = 600,
+                Weight = 400,
                 BateryLevel = 101
             };
             var client = new ClientsFackade.DronesApiHostTestClient();

@@ -31,6 +31,7 @@ namespace Musala.Drones.IntegrationTest.Register
             Assert.Equal(System.Net.HttpStatusCode.Created, result.StatusCode);
             var modelStr = result.Content.ReadAsStringAsync().Result;
             var returnedModel = JsonConvert.DeserializeObject<DroneModel>(modelStr);
+            Assert.Empty(returnedModel.Payload);
             Assert.Equal(sample.Serial, returnedModel.Serial);
             Assert.Equal(DroneStateEnum.Iddle, returnedModel.State);
             Assert.Equal(sample.Type, returnedModel.Type);
@@ -54,6 +55,7 @@ namespace Musala.Drones.IntegrationTest.Register
             var result = client.HttpClient.GetAsync($"{droneUrl}/{sample.Serial}").Result;
             var modelStr = result.Content.ReadAsStringAsync().Result;
             var returnedModel = JsonConvert.DeserializeObject<DroneModel>(modelStr);
+            Assert.Empty(returnedModel.Payload);
             Assert.Equal(sample.Serial, returnedModel.Serial);
             Assert.Equal(DroneStateEnum.Iddle, returnedModel.State);
             Assert.Equal(sample.Type, returnedModel.Type);

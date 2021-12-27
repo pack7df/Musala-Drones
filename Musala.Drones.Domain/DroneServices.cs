@@ -27,7 +27,8 @@ namespace Musala.Drones.Domain
             if (current != null)
                 return false;
             drone.State = DroneStateEnum.Iddle;
-            //TODO: Create a baterry simualtion.
+            drone.Payload = new MedicationModel[0];
+            //TODO: Create a batery simualtion.
             drone.BateryLevel = drone.BateryLevel;
             await droneStorage.SaveOrUpdateAsync(drone);
             return true;

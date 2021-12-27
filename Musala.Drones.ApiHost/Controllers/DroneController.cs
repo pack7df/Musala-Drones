@@ -30,6 +30,8 @@ namespace Musala.Drones.ApiHost.Controllers
                 return Ok("Serial number size exceed 100 chars");
             if (data.Weight > 500)
                 return Ok("Weight limit exceed 500");
+            if ((data.BateryLevel < 0) || (data.BateryLevel >100))
+                return Ok("Batery level must be between 0 and 100");
             var result = await droneService.RegisterAsync(data);
             if (!result)
                 return Ok("Serial exists");
