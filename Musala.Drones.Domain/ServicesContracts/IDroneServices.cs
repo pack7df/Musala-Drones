@@ -9,7 +9,6 @@ namespace Musala.Drones.Domain.ServicesContracts
 {
     public interface IDroneServices
     {
-        public Task Register(DroneModel drone);
-        public Task<DroneModel> LoadDrone(string serial);
+        public Task<bool> RegisterAsync(DroneModel drone);
     }
 }

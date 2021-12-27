@@ -33,7 +33,6 @@ namespace Musala.Drones.MongoInfrastructure
             try
             {
                HealthCheckResult result = await mongoDbHealthCheck.CheckHealthAsync(null, new CancellationTokenSource(1000).Token);
-
                return result.Status.ToString();
             }
             catch(Exception e)

@@ -9,7 +9,7 @@ namespace Musala.Drones.Domain.ServicesContracts
 {
     public interface IDronesStorageServices
     {
-        void SaveOrUpdate(DroneModel drone);
-        DroneModel Load(string serial);
+        Task SaveOrUpdateAsync(DroneModel drone);
+        Task<DroneModel> LoadAsync(string serial);
     }
 }

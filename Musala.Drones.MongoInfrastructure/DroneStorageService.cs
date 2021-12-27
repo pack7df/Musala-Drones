@@ -2,6 +2,7 @@
 using Musala.Drones.Domain.Models;
 using Musala.Drones.Domain.ServicesContracts;
 using System;
+using System.Threading.Tasks;
 
 namespace Musala.Drones.MongoInfrastructure
 {
@@ -15,15 +16,17 @@ namespace Musala.Drones.MongoInfrastructure
             this.configuration = configuration;
         }
 
-        public DroneModel Load(string serial)
+        public async Task<DroneModel> LoadAsync(string serial)
         {
-            return null;
-            //throw new NotImplementedException();
+            var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<DroneModel>("drones");
+            return await collection.Find(d => d.Serial == serial).FirstOrDefaultAsync();
         }
 
-        public void SaveOrUpdate(DroneModel drone)
+        public async Task SaveOrUpdateAsync(DroneModel drone)
         {
-            throw new NotImplementedException();
+            var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<DroneModel>("drones");
+            await collection.DeleteOneAsync(d => d.Serial == drone.Serial);
+            await collection.InsertOneAsync(drone);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Musala.Drones.Domain.Models;
+using Musala.Drones.Domain.ServicesContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,15 @@ namespace Musala.Drones.ApiHost.Controllers
     [Route("api/drone")]
     public class DroneController : ControllerBase
     {
+        private IDroneServices droneService;
+        private IDronesStorageServices droneStorageService;
+        public DroneController(IDroneServices droneServices, IDronesStorageServices droneStorageService)
+        {
+            this.droneService = droneServices;
+            this.droneStorageService = droneStorageService;
+        }
         [HttpPost]
-        public IActionResult RegisterDrone([FromBody] DroneModel data)
+        public async Task<IActionResult> RegisterDrone([FromBody] DroneModel data)
         {
             if (string.IsNullOrEmpty(data.Serial))
                 return BadRequest();
@@ -22,8 +30,17 @@ namespace Musala.Drones.ApiHost.Controllers
                 return Ok("Serial number size exceed 100 chars");
             if (data.Weight > 500)
                 return Ok("Weight limit exceed 500");
-
-            return null;
+            var result = await droneService.RegisterAsync(data);
+            if (!result)
+                return Ok("Serial exists");
+            return Ok(data);
+        }
+        [HttpGet()]
+        [Route("/{serial}")]
+        public async Task<DroneModel> GetDrone(string serial)
+        {
+            var drone = await this.droneStorageService.LoadAsync(serial);
+            return drone;
         }
     }
 }

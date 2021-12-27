@@ -101,10 +101,30 @@ namespace Musala.Drones.IntegrationTest.Register
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
-            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
+            var temp = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent());
+            var result = temp.Result;
             Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
             Assert.Contains("Weight limit exceed 500".ToLower(), response.ToLower());
+        }
+
+
+        [Fact]
+        public void SerialExistsFailTest()
+        {
+            var sample = new DroneModel
+            {
+                Serial = "1234567890",
+                Weight = 350
+            };
+            var client = new ClientsFackade.DronesApiHostTestClient();
+            client.ClearDb();
+            client.Initialize<Startup>();
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
+            result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
+            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            var response = result.Content.ReadAsStringAsync().Result;
+            Assert.Contains("Serial exists".ToLower(), response.ToLower());
         }
     }
 }

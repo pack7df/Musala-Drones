@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using Musala.Drones.Domain;
 using Musala.Drones.Domain.ServicesContracts;
 using Musala.Drones.MongoInfrastructure;
 using System;
@@ -56,6 +57,7 @@ namespace Musala.Drones.ApiHost
                 var client = sp.GetService<IMongoClient>();
                 return new DroneStorageService(client, MongoDbConfiguration);
             });
+            services.AddSingleton<IDroneServices,DroneServices>();
             services.AddControllers();
             services.AddHealthChecks();
             services.AddSwaggerGen(c =>
