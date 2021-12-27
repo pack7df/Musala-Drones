@@ -50,5 +50,10 @@ namespace Musala.Drones.Domain.Models
         {
             get;set;
         }
+
+        public MedicationModel[] Payload
+        {
+            get;set;
+        }
     }
 }

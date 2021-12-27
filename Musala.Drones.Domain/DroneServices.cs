@@ -28,7 +28,7 @@ namespace Musala.Drones.Domain
                 return false;
             drone.State = DroneStateEnum.Iddle;
             //TODO: Create a baterry simualtion.
-            drone.BateryLevel = 100;
+            drone.BateryLevel = drone.BateryLevel;
             await droneStorage.SaveOrUpdateAsync(drone);
             return true;
         }

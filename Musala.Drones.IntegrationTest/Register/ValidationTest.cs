@@ -79,8 +79,10 @@ namespace Musala.Drones.IntegrationTest.Register
             var sample = new DroneModel
             {
                 Serial = serial,
-                Weight = 100
+                Weight = 100,
+                BateryLevel = 40
             };
+
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
@@ -96,35 +98,52 @@ namespace Musala.Drones.IntegrationTest.Register
             var sample = new DroneModel
             {
                 Serial = "1234567890",
-                Weight = 600
-            };
-            var client = new ClientsFackade.DronesApiHostTestClient();
-            client.ClearDb();
-            client.Initialize<Startup>();
-            var temp = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent());
-            var result = temp.Result;
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
-            var response = result.Content.ReadAsStringAsync().Result;
-            Assert.Contains("Weight limit exceed 500".ToLower(), response.ToLower());
-        }
-
-
-        [Fact]
-        public void SerialExistsFailTest()
-        {
-            var sample = new DroneModel
-            {
-                Serial = "1234567890",
-                Weight = 350
+                Weight = 600,
+                BateryLevel = 50
             };
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
             client.Initialize<Startup>();
             var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
-            result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
             var response = result.Content.ReadAsStringAsync().Result;
-            Assert.Contains("Serial exists".ToLower(), response.ToLower());
+            Assert.Contains("Weight limit exceed 500".ToLower(), response.ToLower());
+        }
+
+        [Fact]
+        public void BateryBellow0ValidationFailTest()
+        {
+            var sample = new DroneModel
+            {
+                Serial = "1234567890",
+                Weight = 600,
+                BateryLevel = -1
+            };
+            var client = new ClientsFackade.DronesApiHostTestClient();
+            client.ClearDb();
+            client.Initialize<Startup>();
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
+            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            var response = result.Content.ReadAsStringAsync().Result;
+            Assert.Contains("Batery level must be between 0 and 100".ToLower(), response.ToLower());
+        }
+
+        [Fact]
+        public void BateryAbove100ValidationFailTest()
+        {
+            var sample = new DroneModel
+            {
+                Serial = "1234567890",
+                Weight = 600,
+                BateryLevel = 101
+            };
+            var client = new ClientsFackade.DronesApiHostTestClient();
+            client.ClearDb();
+            client.Initialize<Startup>();
+            var result = client.HttpClient.PostAsync(droneUrl, sample.GetStringContent()).Result;
+            Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+            var response = result.Content.ReadAsStringAsync().Result;
+            Assert.Contains("Batery level must be between 0 and 100".ToLower(), response.ToLower());
         }
     }
 }

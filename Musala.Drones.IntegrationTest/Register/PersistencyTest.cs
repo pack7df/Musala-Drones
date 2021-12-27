@@ -45,6 +45,7 @@ namespace Musala.Drones.IntegrationTest.Register
                 Serial = "1234567890",
                 Weight = 250,
                 Type = DroneTypeEnum.Heavy,
+                BateryLevel = 45
             };
             var client = new ClientsFackade.DronesApiHostTestClient();
             client.ClearDb();
@@ -57,6 +58,8 @@ namespace Musala.Drones.IntegrationTest.Register
             Assert.Equal(DroneStateEnum.Iddle, returnedModel.State);
             Assert.Equal(sample.Type, returnedModel.Type);
             Assert.Equal(sample.Weight, returnedModel.Weight);
+            Assert.Equal(sample.BateryLevel, returnedModel.BateryLevel);
+            Assert.Empty(returnedModel.Payload);
         }
     }
 }
