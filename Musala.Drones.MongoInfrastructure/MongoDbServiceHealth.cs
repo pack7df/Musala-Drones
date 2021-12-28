@@ -5,6 +5,7 @@ using Musala.Drones.Domain.Models;
 using Musala.Drones.Domain.ServicesContracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,6 +20,7 @@ namespace Musala.Drones.MongoInfrastructure
         private MongoDbHealthCheck mongoDbHealthCheck;
         public MongoDbServiceHealth(MongoDbConfiguration config)
         {
+            Debug.WriteLine(config);
             var mongoUrl = MongoUrl.Create(config.ConnectionString);
             MongoClientSettings mongoClientSettings = MongoClientSettings.FromUrl(mongoUrl);
             var client = new MongoClient(mongoClientSettings);

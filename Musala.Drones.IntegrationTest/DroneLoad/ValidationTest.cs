@@ -139,7 +139,7 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var content = result.Content.ReadAsStringAsync().Result;
-            Assert.Equal("Repeated items".ToLower(), content.ToLower());
+            Assert.Contains("Repeated items".ToLower(), content.ToLower());
         }
 
 
@@ -198,7 +198,7 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var content = result.Content.ReadAsStringAsync().Result;
-            Assert.Equal("OverWeight".ToLower(), content.ToLower());
+            Assert.Contains("OverWeight".ToLower(), content.ToLower());
         }
 
         [Fact]
@@ -229,7 +229,7 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var content = result.Content.ReadAsStringAsync().Result;
-            Assert.Equal("Batery low".ToLower(), content.ToLower());
+            Assert.Contains("Batery low".ToLower(), content.ToLower());
         }
 
         [Fact]
@@ -260,7 +260,7 @@ namespace Musala.Drones.IntegrationTest.DroneLoad
             var result = client.HttpClient.PostAsync(url, sample.GetStringContent()).Result;
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
             var content = result.Content.ReadAsStringAsync().Result;
-            Assert.Equal("Drone not found".ToLower(), content.ToLower());
+            Assert.Contains("Drone not found".ToLower(), content.ToLower());
         }
     }
 }

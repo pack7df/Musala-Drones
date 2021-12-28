@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["Musala.Drones.ApiHost/Musala.Drones.ApiHost.csproj", "Musala.Drones.ApiHost/"]
 COPY ["Musala.Drones.MongoInfrastructure/Musala.Drones.MongoInfrastructure.csproj", "Musala.Drones.MongoInfrastructure/"]
 COPY ["Musala.Drones.Domain/Musala.Drones.Domain.csproj", "Musala.Drones.Domain/"]
-RUN dotnet restore "Musala.Drones.ApiHost/Musala.Drones.ApiHost.csproj"
+RUN dotnet restore "Musala.Drones.ApiHost/Musala.Drones.ApiHost.csproj" --disable-parallel
 COPY . .
 WORKDIR "/src/Musala.Drones.ApiHost"
 RUN dotnet build "Musala.Drones.ApiHost.csproj" -c Release -o /app/build

@@ -35,7 +35,8 @@ namespace Musala.Drones.ApiHost
         {
             get
             {
-                return Configuration.GetSection(mongoDBConfigHeader).Get<MongoDbConfiguration>();
+                var temp = Configuration.GetSection(mongoDBConfigHeader).Get<MongoDbConfiguration>();
+                return temp;
             }
         }
 
@@ -99,7 +100,7 @@ namespace Musala.Drones.ApiHost
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHealthChecks("/api/health/WebHost");
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

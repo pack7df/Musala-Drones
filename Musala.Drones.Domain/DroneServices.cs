@@ -64,7 +64,15 @@ namespace Musala.Drones.Domain
                 return DroneLoadResult.OverWeigth;
             drone.Payload = medications;
             drone.State = DroneStateEnum.Loading;
-            await droneStorage.SaveOrUpdateAsync(drone);
+            try
+            {
+                await droneStorage.SaveOrUpdateAsync(drone);
+            }
+            catch(Exception e)
+            {
+                int a = 0;
+            }
+            
             return DroneLoadResult.Ok;
         }
 

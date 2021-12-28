@@ -3,6 +3,7 @@ using Musala.Drones.Domain.Models;
 using Musala.Drones.Domain.ServicesContracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Musala.Drones.MongoInfrastructure
@@ -19,6 +20,7 @@ namespace Musala.Drones.MongoInfrastructure
 
         public async Task ClearAsync()
         {
+            Debug.WriteLine(configuration.DatabaseName);
             await client.DropDatabaseAsync(configuration.DatabaseName);
         }
 
@@ -40,11 +42,16 @@ namespace Musala.Drones.MongoInfrastructure
             return await collection.Find(d => d.BateryLevel >= 25).ToListAsync();
         }
 
+        private object updating = new object();
+
         public async Task SaveOrUpdateAsync(DroneModel drone)
         {
             var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<DroneModel>(nameof(DroneModel).ToLower());
-            await collection.DeleteOneAsync(d => d.Serial == drone.Serial);
-            await collection.InsertOneAsync(drone);
+            lock (updating)
+            {
+                collection.DeleteOneAsync(d => d.Serial == drone.Serial).Wait();
+                collection.InsertOneAsync(drone).Wait();
+            }
         }
 
         public async Task SaveAsync(TelemetryAuditModel audit)
