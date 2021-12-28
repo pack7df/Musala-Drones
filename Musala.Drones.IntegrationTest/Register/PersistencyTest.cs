@@ -60,7 +60,7 @@ namespace Musala.Drones.IntegrationTest.Register
             Assert.Equal(DroneStateEnum.Iddle, returnedModel.State);
             Assert.Equal(sample.Type, returnedModel.Type);
             Assert.Equal(sample.Weight, returnedModel.Weight);
-            Assert.Equal(sample.BateryLevel, returnedModel.BateryLevel);
+            Assert.True(sample.BateryLevel-returnedModel.BateryLevel<0.01);
             Assert.Empty(returnedModel.Payload);
         }
     }

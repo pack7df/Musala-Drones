@@ -14,6 +14,7 @@ namespace Musala.Drones.ApiHost.Controllers
         {
             this.dbHealthCheck = dbHealthCheck;
         }
+        [HttpGet()]
         [Route("database")]
         public async Task<IActionResult> MongoDbStatus()
         {

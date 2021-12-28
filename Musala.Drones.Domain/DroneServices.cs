@@ -73,7 +73,7 @@ namespace Musala.Drones.Domain
             var current = await droneStorage.LoadAsync(drone.Serial);
             if (current != null)
                 return false;
-            current.Id = Guid.NewGuid().ToString();
+            drone.Id = Guid.NewGuid().ToString();
             drone.State = DroneStateEnum.Iddle;
             drone.Payload = new MedicationModel[0];
             //TODO: Create a batery simualtion.
