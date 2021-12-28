@@ -41,7 +41,6 @@ namespace Musala.Drones.ApiHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddSingleton<IDbServiceHealth>((sp) =>
             {
                 return new MongoDbServiceHealth(MongoDbConfiguration);
@@ -57,7 +56,8 @@ namespace Musala.Drones.ApiHost
             services.AddSingleton<DroneStorageService>((sp) =>
             {
                 var client = sp.GetService<IMongoClient>();
-                return new DroneStorageService(client, MongoDbConfiguration);
+                var service = new DroneStorageService(client, MongoDbConfiguration);
+                return service;
             });
             services.AddSingleton<IDronesStorageServices>((sp) =>
             {

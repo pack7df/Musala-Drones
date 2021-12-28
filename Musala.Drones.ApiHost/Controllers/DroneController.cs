@@ -97,5 +97,13 @@ namespace Musala.Drones.ApiHost.Controllers
             }
             return Ok();
         }
+
+        [HttpPost]
+        [Route("seed")]
+        public async Task<IActionResult> GenerateSamples()
+        {
+            await droneStorageService.ResetDatabaseAsync();
+            return Ok();
+        }
     }
 }

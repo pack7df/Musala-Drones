@@ -59,5 +59,31 @@ namespace Musala.Drones.MongoInfrastructure
             var collection = client.GetDatabase(configuration.DatabaseName).GetCollection<TelemetryAuditModel>(nameof(TelemetryAuditModel).ToLower());
             return await collection.Find(d => d.Serial==serial).ToListAsync();
         }
+
+        public async Task ResetDatabaseAsync()
+        {
+            await ClearAsync();
+            var generator = new Random();
+            var serials = new HashSet<int>();
+            for (var i = 0; i < 12; i++)
+            {
+                var serial = 0;
+                do
+                    serial = generator.Next(10000);
+                while (serials.Contains(serial));
+                serials.Add(serial);
+                var drone = new DroneModel
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    BateryLevel = (float)(generator.NextDouble() * 100),
+                    Payload = new MedicationModel[0],
+                    Serial = "Serial-" + serial,
+                    State = DroneStateEnum.Iddle,
+                    Type = (DroneTypeEnum)generator.Next(4),
+                    Weight = generator.Next(500)
+                };
+                await SaveOrUpdateAsync(drone);
+            }
+        }
     }
 }

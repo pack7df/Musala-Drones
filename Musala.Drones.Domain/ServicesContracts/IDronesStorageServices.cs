@@ -9,6 +9,7 @@ namespace Musala.Drones.Domain.ServicesContracts
 {
     public interface IDronesStorageServices
     {
+        Task ResetDatabaseAsync();
         Task SaveOrUpdateAsync(DroneModel drone);
         Task SaveAsync(TelemetryAuditModel audit);
         Task<DroneModel> LoadAsync(string serial);
