@@ -11,4 +11,6 @@ Test:
 Host:
 	Run start.bat. 
 	
-In order to use the api (and read documentation) you could type in your browser: https://localhost/swagger/index.html or use postman.
+In order to use the api (and read documentation) you could type in your browser: http://localhost/swagger/index.html or use postman.
+In order to check if webhost is runing, request a get to : http://localhost/api/health/WebHost
+In order to check if mongoDb is runing and the application is sucessfull connected, request a get to : http://localhost/api/health/database
