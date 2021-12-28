@@ -8,8 +8,21 @@ namespace Musala.Drones.Domain.Models
 {
     public class TelemetryAuditModel
     {
-        public DateTime Date;
-        public TelemetryModel Value;
-        public string serial;
+        public string Id
+        {
+            get;set;
+        }
+        public DateTime Date
+        {
+            get;set;
+        }
+        public TelemetryModel Value
+        {
+            get;set;
+        }
+        public string Serial
+        {
+            get;set;
+        }
     }
 }

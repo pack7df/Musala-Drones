@@ -25,6 +25,15 @@ namespace Musala.Drones.Domain
                 foreach(var d in drones)
                 {
                     var telemetry = droneTelemetryService.GetTelemetry(d);
+                    var audit = new TelemetryAuditModel
+                    {
+                        Date = DateTime.Now,
+                        Serial = d.Serial,
+                        Value = telemetry
+                    };
+                    droneStorage.SaveAsync(audit);
+                    d.BateryLevel = audit.Value.BateryLevel;
+                    droneStorage.SaveOrUpdateAsync(d);
                 }
                 Thread.Sleep(telemetryPeriod);
             }
@@ -34,6 +43,7 @@ namespace Musala.Drones.Domain
         {
             this.droneStorage = droneStorage;
             this.droneTelemetryService = droneTelemetryService;
+            this.telemetryPeriod = telemetryPeriod;
             Task.Run(() => BateryUpdater());
         }
 

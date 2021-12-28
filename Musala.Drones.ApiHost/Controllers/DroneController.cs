@@ -30,12 +30,12 @@ namespace Musala.Drones.ApiHost.Controllers
                 return BadRequest("Serial number size exceed 100 chars");
             if (data.Weight > 500)
                 return BadRequest("Weight limit exceed 500");
-            if ((data.BateryLevel < 0) || (data.BateryLevel >100))
+            if ((data.BateryLevel < 0) || (data.BateryLevel > 100))
                 return BadRequest("Batery level must be between 0 and 100");
             var result = await droneService.RegisterAsync(data);
             if (!result)
                 return BadRequest("Serial exists");
-            return Created($"/api/drone/{data.Serial}",data);
+            return Created($"/api/drone/{data.Serial}", data);
         }
 
         [HttpGet()]
@@ -45,11 +45,18 @@ namespace Musala.Drones.ApiHost.Controllers
             return await this.droneStorageService.LoadAvailableAsync();
         }
 
-        [HttpGet()]
+        [HttpGet("{serial}")]
         public async Task<DroneModel> Get(string serial)
         {
             var drone = await this.droneStorageService.LoadAsync(serial);
             return drone;
+        }
+
+        [HttpGet("audit/{serial}")]
+        public async Task<List<TelemetryAuditModel>> GetAuditions(string serial)
+        {
+            var auditions = await this.droneStorageService.LoadAuditionsAsync(serial);
+            return auditions;
         }
 
         [HttpPost]
